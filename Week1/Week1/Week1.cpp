@@ -331,6 +331,7 @@ void printEmployeesWithSalaryBiggerThenAvg(const ItCompany& company) {
 	}
 	delete[] employeesWithBiggerSalary;
 }
+
 int main()
 {
 }
