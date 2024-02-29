@@ -1,5 +1,6 @@
 # OOP
-Object-Oriented Programming (OOP) course @ FMI.This README provides information about the weekly activities to the end of the semester organized by topics.
+Object-Oriented Programming (OOP) course @ FMI. 
+This README provides information about the weekly activities to the end of the semester organized by topics.
 
 ## Weekly Activities
 
