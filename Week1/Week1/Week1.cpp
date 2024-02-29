@@ -85,7 +85,7 @@ struct Student {
 };
 struct Group {
 	double averageGrade;
-	int n;
+	size_t n;
 	Student* students;
 };
 double avgGrades(Student* students, size_t size) {
@@ -142,13 +142,44 @@ int findCountOfPeopleWithScolarship(Group& gr,double scolarshipGrade) {
 	return count;
 
 }
+Student* getStudentsWhoWillHaveScolarship(Group& gr, double scolarshipGrade) {
+	int numberOfStudents = findCountOfPeopleWithScolarship(gr, scolarshipGrade);
+	Student* studentsWithScolarship = new Student[numberOfStudents];
+	int count = 0;
+	for (size_t i = 0; i < gr.n; i++)
+	{
+		if (gr.students[i].grade >= scolarshipGrade) {
+			studentsWithScolarship[count] = gr.students[i];
+			count++;
+		}
+	}
+	return studentsWithScolarship;
+}
+bool compareStudentsByFacultyNumber(const Student& a, const Student& b) {
+	return std::strcmp(a.facultyNumber, b.facultyNumber) > 0;
+}
+Group sortedStudentsWhoWillHaveScolarship(Group& gr, double scolarshipGrade) {
+	size_t size = findCountOfPeopleWithScolarship(gr, scolarshipGrade);
+	Student* studentsWithScolarship = getStudentsWhoWillHaveScolarship(gr,scolarshipGrade);
+	for (int i = 0; i < size - 1; i++) {
+		for (int j = 0; j < size - i - 1; j++) {
+			if (compareStudentsByFacultyNumber(studentsWithScolarship[j], studentsWithScolarship[j + 1])) {
+				Student temp = studentsWithScolarship[j];
+				studentsWithScolarship[j] = studentsWithScolarship[j + 1];
+				studentsWithScolarship[j + 1] = temp;
+			}
+		}
+	}
+	Group group = {avgGrades(studentsWithScolarship,size),size,studentsWithScolarship};
+	return group;
+}
 
 int main()
 {
 	size_t n;
 	std::cin >> n;
 	Group gr = initializeGroupAndStudents(n);
-	int test;
-
+	Group sortedGroup = sortedStudentsWhoWillHaveScolarship(gr, 5.5);
+	std::cout << "test";
 	
 }
