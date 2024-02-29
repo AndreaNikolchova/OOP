@@ -71,7 +71,7 @@ ComplexNumber sumTwoNumbers(const ComplexNumber& lcn, const ComplexNumber& rcn) 
 ComplexNumber multiplyTwoComplexNumbers(const ComplexNumber& lcn, const ComplexNumber& rcn) {
 	ComplexNumber multiply;
 	multiply.a = lcn.a * rcn.a - lcn.b * rcn.b;
-	multiply.b = lcn.a*rcn.b + lcn.b*rcn.a;
+	multiply.b = lcn.a * rcn.b + lcn.b * rcn.a;
 	return multiply;
 }
 //3
@@ -131,7 +131,7 @@ Group initializeGroupAndStudents(size_t n) {
 	Group gr = { avgGrades(students,n),n,students };
 	return gr;
 }
-int findCountOfPeopleWithScolarship(Group& gr,double scolarshipGrade) {
+int findCountOfPeopleWithScolarship(Group& gr, double scolarshipGrade) {
 	int count = 0;
 	for (size_t i = 0; i < gr.n; i++)
 	{
@@ -160,26 +160,34 @@ bool compareStudentsByFacultyNumber(const Student& a, const Student& b) {
 }
 Group sortedStudentsWhoWillHaveScolarship(Group& gr, double scolarshipGrade) {
 	size_t size = findCountOfPeopleWithScolarship(gr, scolarshipGrade);
-	Student* studentsWithScolarship = getStudentsWhoWillHaveScolarship(gr,scolarshipGrade);
+	Student* studentsWithScolarship = getStudentsWhoWillHaveScolarship(gr, scolarshipGrade);
+
 	for (int i = 0; i < size - 1; i++) {
 		for (int j = 0; j < size - i - 1; j++) {
 			if (compareStudentsByFacultyNumber(studentsWithScolarship[j], studentsWithScolarship[j + 1])) {
-				Student temp = studentsWithScolarship[j];
-				studentsWithScolarship[j] = studentsWithScolarship[j + 1];
-				studentsWithScolarship[j + 1] = temp;
+				std::swap(studentsWithScolarship[j], studentsWithScolarship[j + 1]);
 			}
 		}
 	}
-	Group group = {avgGrades(studentsWithScolarship,size),size,studentsWithScolarship};
+
+	Group group = { avgGrades(studentsWithScolarship,size),size,studentsWithScolarship };
 	return group;
 }
-
+//4
+struct Point {
+	int x;
+	int y;
+};
+Point readPoint() {
+	int x, y;
+	std::cin >> x >> y;
+	Point point = { x,y };
+	return point;
+}
+void printPoint(Point& point) {
+	std::cout << "(" << point.x << ";" << point.y << ")" << std::endl;
+}
 int main()
 {
-	size_t n;
-	std::cin >> n;
-	Group gr = initializeGroupAndStudents(n);
-	Group sortedGroup = sortedStudentsWhoWillHaveScolarship(gr, 5.5);
-	std::cout << "test";
-	
+
 }
