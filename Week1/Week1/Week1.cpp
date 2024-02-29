@@ -175,11 +175,11 @@ Group sortedStudentsWhoWillHaveScolarship(Group& gr, double scolarshipGrade) {
 }
 //4
 struct Point {
-	int x;
-	int y;
+	double x;
+	double y;
 };
 Point readPoint() {
-	int x, y;
+	double x, y;
 	std::cin >> x >> y;
 	Point point = { x,y };
 	return point;
@@ -187,7 +187,150 @@ Point readPoint() {
 void printPoint(Point& point) {
 	std::cout << "(" << point.x << ";" << point.y << ")" << std::endl;
 }
+double findDistanceBetweenTwoPoints(const Point& p1, const Point& p2) {
+	return std::sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
+}
+double findDistanceFromCenter(const Point& point) {
+	Point center = { 0.0,0.0 };
+	return findDistanceBetweenTwoPoints(center, point);
+
+}
+//5
+const int SIZE_OF_EMPLOYEE_NAME = 100;
+enum class Possition {
+	SoftwareEngineer = 1, SeniorSoftwareEngineer, EngineerManager, LeadSoftwareEngineer
+};
+struct ItCompanyEmployee {
+	double salary;
+	int grade;
+	Possition position;
+	char name[SIZE_OF_EMPLOYEE_NAME];
+};
+ItCompanyEmployee initializeEmployee() {
+	std::cout << "Employee's name:" << std::endl;
+	ItCompanyEmployee employee;
+	std::cin.getline(employee.name, 100);
+	std::cin.ignore();
+	std::cout << "Employee's grade:" << std::endl;
+	std::cin >> employee.grade;
+	std::cout << "Employee's salary:" << std::endl;
+	std::cin >> employee.salary;
+	std::cout << "Enter employees position number by this positions" << std::endl << "		1.Software Engineer" << std::endl << "	2.Senior Software Engineer" << std::endl << "		3.Engineer Manager" << std::endl << "	4.Lead Software Engineer";
+	int number;
+	std::cin >> number;
+
+	switch (number)
+	{
+	case 1:
+		employee.position = Possition::SoftwareEngineer;
+		break;
+	case 2:
+		employee.position = Possition::SeniorSoftwareEngineer;
+		break;
+	case 3:
+		employee.position = Possition::EngineerManager;
+		break;
+	case 4:
+		employee.position = Possition::LeadSoftwareEngineer;
+		break;
+	}
+	return employee;
+}
+void printEmployee(const ItCompanyEmployee& employee) {
+
+	std::cout << "Name: " << employee.name << std::endl << "Grade: " << employee.grade << std::endl << "Salary: " << employee.salary << std::endl << "Possition: ";
+
+	switch (employee.position) {
+	case Possition::SoftwareEngineer:
+		std::cout << "Software Engineer";
+		break;
+
+	case Possition::SeniorSoftwareEngineer:
+		std::cout << "Senior Software Engineer";
+		break;
+
+	case Possition::LeadSoftwareEngineer:
+		std::cout << "Lead Software Engineer";
+		break;
+
+	case Possition::EngineerManager:
+		std::cout << "Engineer Manager";
+		break;
+	}
+	std::cout << std::endl;
+}
+struct ItCompany {
+	int employeeCount;
+	double averageSalary;
+	ItCompanyEmployee* employees;
+};
+double avgSalary(const ItCompany& company) {
+	double sum = 0;
+	for (size_t i = 0; i < company.employeeCount; i++)
+		sum += company.employees[i].salary;
+	return sum / company.employeeCount;
+}
+ItCompany initializeCompany() {
+	ItCompany company;
+
+	std::cout << "Enter employee count" << std::endl;
+	std::cin >> company.employeeCount;
+
+	ItCompanyEmployee* employees = new ItCompanyEmployee[company.employeeCount];
+
+	for (size_t i = 0; i < company.employeeCount; i++)
+		employees[i] = initializeEmployee();
+
+	company.employees = employees;
+	company.averageSalary = avgSalary(company);
+	return company;
+}
+void getMinAndMaxEmployeeGrade(const ItCompany& company) {
+	int min = INT16_MAX;
+	int max = INT16_MIN;
+	for (size_t i = 0; i < company.employeeCount; i++)
+	{
+		if (company.employees[i].grade>max) {
+			max = company.employees[i].grade;
+		}
+		if (company.employees[i].grade < min) {
+			min = company.employees[i].grade;
+		}
+	}
+	std::cout << "Max grade is " << max << " min grade is " << min << std::endl;
+}
+ItCompanyEmployee* getEmployeesWithSalaryBiggerThenAverage(const ItCompany& company, int& size) {
+	ItCompanyEmployee* employees = new ItCompanyEmployee[company.employeeCount];
+	for (size_t i = 0; i < company.employeeCount; i++)
+	{
+		if (company.employees[i].salary > company.averageSalary) {
+			employees[size++] = company.employees[i];
+		}
+	}
+	return employees;
+}
+bool compareEmployeesByName(const ItCompanyEmployee& a, const ItCompanyEmployee& b) {
+	return std::strcmp(a.name, b.name) > 0;
+}
+void sortEmployeesByName(ItCompanyEmployee* employees,size_t size) {
+	for (int i = 0; i < size - 1; i++) {
+		for (int j = 0; j < size - i - 1; j++) {
+			if (compareEmployeesByName(employees[j], employees[j + 1])) {
+				std::swap(employees[j], employees[j + 1]);
+			}
+		}
+	}
+}
+void printEmployeesWithSalaryBiggerThenAvg(const ItCompany& company) {
+	int size = 0;
+	ItCompanyEmployee* employeesWithBiggerSalary = getEmployeesWithSalaryBiggerThenAverage(company,size);
+	sortEmployeesByName(employeesWithBiggerSalary,size);
+	for (size_t i = 0; i < size; i++)
+	{
+		printEmployee(employeesWithBiggerSalary[i]);
+	}
+	delete[] employeesWithBiggerSalary;
+}
 int main()
 {
-
 }
