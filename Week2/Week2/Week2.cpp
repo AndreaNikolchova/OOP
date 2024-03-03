@@ -33,7 +33,6 @@ int subtractNumbersFromFile() {
 
 int main()
 {
-	//readThreeNumbers();
-	std::cout<<subtractNumbersFromFile();
+	
 }
 
