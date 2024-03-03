@@ -13,5 +13,9 @@ This README provides information about the weekly activities to the end of the s
   - Student struct which is characterized by a grade, university registration number, name, and major {CS, IS, CE, PM, M, INFO}.
   - Point structure in the Cartesian plane.
   - It Company
-
-
+### Week 2 - Streams, Input output streams in C++, Working with files, Flow state 
+- **Overview:** Three tasks from practicum and two bonus using files and structs.
+- **Activities:**
+  - Read three numbers from the console, calculate their sum and multiplication, and write the results to a file named 'result.txt.' Then, read the sum and multiplication from the same file and calculate their subtraction. Finally, write the subtraction result to the console.
+  - Relation and pair structures. Three function to work with them.
+  --to be continued...
